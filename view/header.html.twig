@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+        <title>MVC with Twig</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="view/web/css/base.css"  />
+        <link rel="shortcut icon" href="view/web/img/favicon.ico" />
+</head>
+<body>
+<header>
+        
+        <div id="menu_header">
+                <a href="offres"> Accueil </a>
+                <a href="creer_offre"> Creer une offre </a>
+
+	        {% if session.user_id is defined %}
+	        <a href="deconnexion">Déconnexion</a>
+	        {% endif %}
+
+	        {% if session.user_id is not defined %}
+	        <a href="connecter">Se Connecter </a>
+	        <a href="creer_compte">Creer un compte</a>
+	        {% endif %}
+        </div>
+ 
+</header><hr>

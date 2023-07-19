@@ -1,0 +1,27 @@
+<main>
+
+<h2>Modifier l'offre : </h2>
+
+<form action="modif" method="POST">
+    <table>
+
+        <tr>
+
+            <td><input type="number" value="{{offre.getId}}" name="id" id="id" hidden></td>
+        </tr>
+        <tr>
+            <td><label for="titre">Titre : </label></td>
+            <td><input type="text" value="{{offre.getTitle}}" name="titre" id="titre"></td>
+        </tr>
+        <tr>
+            <td><label for="description">Description : </label></td>
+            <td><input type="text" value="{{offre.getDescription}}" name="description" id="description"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Modifier l'offre" name="modifier" ></td>
+        </tr>
+
+    </table>
+</form>
+
+</main>

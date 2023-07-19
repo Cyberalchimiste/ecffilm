@@ -1,0 +1,20 @@
+
+<main>
+
+	<h2>Liste des offres :</h2> <br>
+	<div id="listeOffer">
+		<table>
+			{% for offer in offers %}
+
+				<tr>
+					<td>{{offer.getTitle}}   :    </td>
+					<td>{{offer.getDescription}}   !   </td>
+					<td id="supprimer"><a href='delete_offre&{{offer.getId}}'><button><span>Supprimer</span></button></a></td>
+					<td id="modifier"><a href='modif&{{offer.getId}}'><button><span>Modifier</span></button></a></td>
+				</tr>
+
+			{% endfor %}
+		</table>
+	</div>
+	<br>
+</main>
