@@ -54,14 +54,14 @@ class OffresDAO extends Dao
         }
     }
 
-    public function update($id, $title, $description){
+    public function update($data){
         
 
 
         $query = $this->BDD->prepare("UPDATE offers SET title = :title, description = :description WHERE id = :id");
-        $query->bindParam(':id', $id);
-        $query->bindParam(':title', $title);
-        $query->bindParam(':description', $description);
+        $query->bindParam(':id', $data->getId());
+        $query->bindParam(':title', $data->getTitle());
+        $query->bindParam(':description', $data->getDescription());
         $query->execute();
         
 

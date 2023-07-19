@@ -3,21 +3,13 @@
 $offresDao = new OffresDAO();
 $message = "";
 
-$offre = $offresDao->getOne($_GET['id']);
+$idOffre = $_GET['id'];
+$offre = $offresDao->getOne($idOffre);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["modifier"])) {
-    $id = $_POST['id'];
-    $titre = $_POST['titre'];
-    $description = $_POST['description'];
-    $status = $offresDao->update($id, $titre, $description);
-
-    if ($status) {
-        $message =  "Supression effectué !";
-    } else {
-        $message = "Erreur lors de la supression";
-    }
-
+    $offres = new Offres($_POST['id'], $_POST['titre'], $_POST['description']);
+    $status = $offresDao->update($offres);
 
     header("Location: offre_updated");
     exit();

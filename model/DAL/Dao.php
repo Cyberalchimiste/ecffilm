@@ -32,7 +32,7 @@ abstract class Dao
     abstract public function add($data);
 
     //Ajouter un item
-    abstract public function update($id, $title, $description);
+    abstract public function update($data);
 
     //Supprimer un item
     abstract public function delete($id);

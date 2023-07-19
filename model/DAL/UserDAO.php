@@ -47,7 +47,7 @@ class UserDAO extends Dao
     {
     }
 
-    public function update($id, $title, $description){
+    public function update($data){
         
     }
 
