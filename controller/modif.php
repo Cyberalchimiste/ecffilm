@@ -17,11 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["modifier"])) {
     } else {
         $message = "Erreur lors de la supression";
     }
-    if ($status) {
-        $message =  "Supression effectué !";
-    } else {
-        $message = "Erreur lors de la supression";
-    }
+
     
 
     header("Location: offre_updated");
