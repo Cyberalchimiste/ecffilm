@@ -26,7 +26,7 @@ abstract class Dao
     abstract public function getOne($id);
 
     //Récupérer un user à l'aide de son email et password
-    abstract public function getOneByEmailAndPass($email, $mdp);
+    abstract public function getOneByEmail($email);
 
     //Ajouter un item
     abstract public function add($data);

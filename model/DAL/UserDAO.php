@@ -4,23 +4,22 @@ class UserDAO extends Dao
 {
 
     //Récupérer un user par son email et mdp
-    public function getOneByEmailAndPass($email, $mdp)
+    public function getOneByEmail($email)
     {
-        $query = $this->BDD->prepare('SELECT * FROM users WHERE email = :email AND password = :mdp');
+        $query = $this->BDD->prepare('SELECT * FROM users WHERE email = :email');
         $query->bindParam(':email', $email);
-        $query->bindParam(':mdp', $mdp);
         $query->execute();
-        $users = array();
+        $user = null;
         while ($data = $query->fetch()) {
-            $users = new User($data['idUser'], $data['userName'], $data['email'], $data['password']);
+            $user = new User($data['idUser'], $data['userName'], $data['email'], $data['password']);
         }
-        return ($users);
+        return $user;
     }
 
-    //Récupérer toutes les items
+
     public function add($user)
     {
-        $valeurs = ['username' => $user->getNom(),'email' => $user->getEmail(), 'password' => $user->getPassword()];
+        $valeurs = ['username' => $user->getNom(),'email' => $user->getEmail(), 'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT)];
         $requete = 'INSERT INTO users (userName, email, password) VALUES (:username, :email , :password)';
         $insert = $this->BDD->prepare($requete);
         if (!$insert->execute($valeurs)) {
