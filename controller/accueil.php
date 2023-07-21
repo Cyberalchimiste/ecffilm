@@ -5,6 +5,7 @@ $filmDAO = new FilmDAO();
 
 // Récupération de tous les films depuis la base de données
 $films = $filmDAO->getAll();
+// var_dump($films);
 $resultats = $filmDAO->join();
 
 

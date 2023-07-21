@@ -36,21 +36,51 @@ class FilmDAO extends Dao {
 
     public function add($film)
     {
-        $valeurs = [
-            'titre' => $film->getTitre(),
-            'realisateur' => $film->getRealisateur(),
-            'affiche' => $film->getAffiche(),
-            'annee' => $film->getAnnee()
-        ];
-        $query = 'INSERT INTO films (titre, realisateur, affiche, annee) 
-                    VALUES (:titre, :realisateur, :affiche, :annee)';
-        $insert = $this->BDD->prepare($query);
-        if (!$insert->execute($valeurs)) {
-            return false;
-        } else {
-            return true;
+        // Insérer le nouveau film dans la table `films`
+        $queryFilm = $this->BDD->prepare("INSERT INTO `films` (`titre`, `realisateur`, `affiche`, `annee`)
+                                         VALUES (:titre, :realisateur, :affiche, :annee)");
+        $titre = $film->getTitre();
+        $queryFilm->bindParam(':titre', $titre, PDO::PARAM_STR);
+        $realisateur = $film->getRealisateur();
+        $queryFilm->bindParam(':realisateur', $realisateur, PDO::PARAM_STR);
+        $affiche = $film->getAffiche();
+        $queryFilm->bindParam(':affiche', $affiche, PDO::PARAM_STR);
+        $annee = $film->getAnnee();
+        $queryFilm->bindParam(':annee', $annee, PDO::PARAM_INT);
+        $queryFilm->execute();
+
+        // Récupérer l'identifiant (idFilm) du film nouvellement ajouté
+        $filmId = $this->BDD->lastInsertId();
+
+        // Insérer les rôles associés au film dans les tables `acteurs` et `roles`
+        foreach ($film->getRoles() as $role) {
+            $acteur = $role->getActeur();
+            $acteurNom = $acteur->getNom();
+            $acteurPrenom = $acteur->getPrenom();
+            $personnage = $role->getPersonnage();
+
+            // Insérer l'acteur dans la table `acteurs` s'il n'existe pas déjà
+            $queryActeur = $this->BDD->prepare("INSERT IGNORE INTO `acteurs` (`nom`, `prenom`) VALUES (:nom, :prenom)");
+            $queryActeur->bindParam(':nom', $acteurNom);
+            $queryActeur->bindParam(':prenom', $acteurPrenom);
+            $queryActeur->execute();
+
+            // Récupérer l'identifiant (idActeur) de l'acteur nouvellement ajouté ou déjà existant
+            $acteurId = $this->BDD->lastInsertId();
+
+            // Insérer le rôle dans la table `roles`
+            $queryRole = $this->BDD->prepare("INSERT INTO `roles` (`idActeur`, `idFilm`, `personnage`) VALUES (:idActeur, :idFilm, :personnage)");
+            $queryRole->bindParam(':idActeur', $acteurId);
+            $queryRole->bindParam(':idFilm', $filmId);
+            $queryRole->bindParam(':personnage', $personnage);
+            $queryRole->execute();
         }
+
+        // Retourner l'identifiant du nouveau film
+        return $filmId;
     }
+
+    
 
     public function delete($id)
     {
@@ -59,41 +89,10 @@ class FilmDAO extends Dao {
         $query->execute();
     }
 
-    public function getOneByEmailAndPass($email, $password)
-    {
-        $query = $this->BDD->prepare("SELECT idFilm, titre, realisateur, affiche, annee FROM films WHERE email = :email AND password = :password");
-        $query->bindParam(":email", $email);
-        $query->bindParam(":password", $password);
-        $query->execute();
-
-        $data = $query->fetch();
-        if ($data) {
-            $film = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee']);
-            return $film;
-        } else {
-            return null;
-        }
-    }
-
     public function update($film)
     {
-        $requete = 'UPDATE films 
-                SET titre = :titre, realisateur = :realisateur, affiche = :affiche, annee = :annee 
-                WHERE idFilm = :id';
-    $query = $this->BDD->prepare($requete);
-    $valeurs = [
-        'titre' => $film->getTitre(),
-        'realisateur' => $film->getRealisateur(),
-        'affiche' => $film->getAffiche(),
-        'annee' => $film->getAnnee(),
-        'id' => $film->getId()
-    ];
-    if (!$query->execute($valeurs)) {
-        return false;
-    } else {
-        return true;
     }
-    }
+
     public function join()
     {
         $query = $this->BDD->prepare("SELECT f.titre, f.realisateur, f.affiche, f.annee, a.nom 
@@ -111,13 +110,5 @@ class FilmDAO extends Dao {
 
     public function getOneByEmail($email)
     {
-        $query = $this->BDD->prepare('SELECT * FROM users WHERE email = :email');
-        $query->bindParam(':email', $email);
-        $query->execute();
-        $user = null;
-        while ($data = $query->fetch()) {
-            $user = new User($data['idUser'], $data['userName'], $data['email'], $data['password']);
-        }
-        return $user;
     }
 }

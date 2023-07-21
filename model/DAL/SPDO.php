@@ -27,4 +27,10 @@ class SPDO
     {
         return $this->PDOInstance->prepare($query);
     }
+
+    // Méthode pour récupérer l'ID du dernier enregistrement inséré
+    public function lastInsertId($name = null)
+    {
+        return $this->PDOInstance->lastInsertId($name);
+    }
 }
