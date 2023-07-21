@@ -1,0 +1,13 @@
+main{
+    width: 80%;
+  margin: auto;
+ margin-top: 100px;
+}
+h2{
+    margin-bottom: 35px;
+}
+.carousel-inner p {
+    line-height: 0.75; 
+    text-align: left;
+  
+  }

@@ -8,7 +8,75 @@
     <title>ECF FILM</title>
 </head>
 <body>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-</body>
+		<header>
+
+			<!-- NAVBAR SUR TOUTE LES PAGES -->
+
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<div class="container-fluid">
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+						<a class="navbar-brand" href="accueil">
+							<img src="https://cdn-icons-png.flaticon.com/512/3708/3708519.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+							MÉDIATHÈQUE
+						</a>
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="accueil">Films</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="compte">Compte</a>
+							</li>
+
+							<!-- Affichage du menu une fois connecté -->
+
+							{% if session.user_id is defined %}
+								<li class="nav-item">
+									<a class="nav-link" href="creation">Creation</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="logout">Logout</a>
+								</li>
+							{% endif %}
+
+
+							<!-- le formulaire de recherche -->
+
+						</ul>
+						<form class="d-flex">
+							<input class="form-control me-2" type="search" placeholder="Rechercher un film" aria-label="Rechercher">
+							<button class="btn btn-outline-light" type="submit">Rechercher</button>
+						</form>
+					</div>
+				</div>
+			</nav>
+
+			<!-- Message en bas de la navbar quand l'utilisateur n'est pas connecté -->
+
+			{% if session.user_id is not defined %}
+				<p class="ms-2">
+					<a class="link-offset-2 link-underline link-underline-opacity-0" href="compte">Connectez-vous pour créer des films</a>
+
+				</p>
+
+			{% endif %}
+
+
+			<!-- Message en bas de la navbar quand l'utilisateur est connecté -->
+
+			{% if session.user_id is defined %}
+				<p class="ms-2">
+					<a class="link-offset-2 link-underline link-underline-opacity-0" href="compte">Bienvenue sur notre médiathèque
+						{{userName}}</a>
+
+				</p>
+			{% endif %}
+
+
+		</header>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	</body>
+
 </html>

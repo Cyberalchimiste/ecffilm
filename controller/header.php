@@ -1,5 +1,6 @@
 <?php
-
+$usersDao = new UserDAO();
+$user = "";
 
 
 

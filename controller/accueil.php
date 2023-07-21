@@ -1,9 +1,13 @@
 <?php
 
+// Instanciation de la classe FilmDAO
+$filmDAO = new FilmDAO();
 
-var_dump($_SESSION['user_id']);
+// Récupération de tous les films depuis la base de données
+$films = $filmDAO->getAll();
+$resultats = $filmDAO->join();
+echo $twig->render('accueil.html.twig', ['films' => $films, 'resultats' => $resultats]);
 
 
-echo $twig->render('accueil.html.twig', [
 
-]);
+
