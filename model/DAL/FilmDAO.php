@@ -2,12 +2,17 @@
 class FilmDAO extends Dao {
     public function getAll()
     {
-        $query = $this->BDD->prepare("SELECT idFilm, titre, realisateur, affiche, annee FROM films");
+        $query = $this->BDD->prepare("SELECT f.idFilm, f.titre, f.realisateur, f.affiche, f.annee, a.nom 
+        AS acteur_nom, a.prenom AS acteur_prenom, r.personnage AS role
+        FROM films f
+        JOIN roles ro ON f.idFilm = ro.idFilm
+        JOIN acteurs a ON ro.idActeur = a.idActeur
+        JOIN roles r ON ro.idRole = r.idRole");
         $query->execute();
         $films = array();
 
         while ($data = $query->fetch()) {
-            $film = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee']);
+            $film = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], array($data['role']));
             $films[] = $film;
         }
 
