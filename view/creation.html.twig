@@ -1,59 +1,76 @@
 <body>
     <div id="container-creation">
-        <h3>Insérer un film</h3>
-        <form action="creation" method="post">
-            <table id="table-creer">
-                <tr>
-                    <td><label for="titre">Titre</label></td>
-                    <td><label for="annee">Année</label></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="titre" id="titre" required></td>
-                    <td><input type="text" name="annee" id="annee" required></td>
-                </tr>
-                <br><br>
-                <tr>
-                    <td><label for="affiche">Affiche</label></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="affiche" id="affiche" required></td>
-                </tr>
-                <br><br>
-                <tr>
-                    <td><label for="real">Réalisateur</label></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="real" id="real" required></td>
-                </tr>
-                <br><br>
-                <tr>
-                    <td><p>Rôles</p></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="personnage[]" id="personnage" placeholder="Personnage" required></td>
-                    <td><input type="text" name="nom[]" id="nom" placeholder="Nom" required></td>
-                    <td><input type="text" name="prenom[]" id="prenom" placeholder="Prénom" required></td>
-                </tr>
-                <br>
-                <tr>
-                    <td><input type="text" name="personnage[]" id="personnage" placeholder="Personnage"></td>
-                    <td><input type="text" name="nom[]" id="nom" placeholder="Nom"></td>
-                    <td><input type="text" name="prenom[]" id="prenom" placeholder="Prénom"></td>
-                </tr>
-                <br>
-                <tr>
-                    <td><input type="text" name="personnage[]" id="personnage" placeholder="Personnage"></td>
-                    <td><input type="text" name="nom[]" id="nom" placeholder="Nom"></td>
-                    <td><input type="text" name="prenom[]" id="prenom" placeholder="Prénom"></td>
-                </tr>
-                <br>
-                <tr id="tr-creer">
-                    <td id="td-creer">
-                        <input type="submit" value="Créer" name="creer" id="creer">
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+    <h2 class="text-center">Insérer un film</h2>
+    <form action="creation" method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="titre" class="h5">Titre</label>
+                        <input type="text" name="titre" id="titre" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="annee" class="h5">Année</label>
+                        <input type="text" name="annee" id="annee" class="form-control" required>
+                    </div>
+                </div>
+            </div>
 
+            <div class="form-group mt-4">
+                <label for="affiche" class="h5">Affiche</label>
+                <input type="text" name="affiche" id="affiche" class="form-control" required>
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="real" class="h5">Réalisateur</label>
+                <input type="text" name="real" id="real" class="form-control" required>
+            </div>
+
+            <div class="form-group mt-4">
+                <label class="h5">Rôles</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="personnage[]" class="form-control" placeholder="Personnage" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="nom[]" class="form-control" placeholder="Nom" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="prenom[]" class="form-control" placeholder="Prénom" required>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="personnage[]" class="form-control" placeholder="Personnage">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="nom[]" class="form-control" placeholder="Nom">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="prenom[]" class="form-control" placeholder="Prénom">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="personnage[]" class="form-control" placeholder="Personnage">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="nom[]" class="form-control" placeholder="Nom">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="prenom[]" class="form-control" placeholder="Prénom">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center"> 
+                <input type="submit" value="Créer" name="creer" class="btn btn-primary mt-4"> 
+            </div>
+        </div>
+    </form>
+</div>
 </body>

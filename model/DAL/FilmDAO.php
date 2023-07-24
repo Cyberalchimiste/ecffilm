@@ -46,15 +46,27 @@ class FilmDAO extends Dao {
             $acteurNom = $acteur->getNom();
             $acteurPrenom = $acteur->getPrenom();
             $personnage = $role->getPersonnage();
-
-            // Insérer l'acteur dans la table `acteurs` s'il n'existe pas déjà
-            $queryActeur = $this->BDD->prepare("INSERT IGNORE INTO `acteurs` (`nom`, `prenom`) VALUES (:nom, :prenom)");
+    
+            // Rechercher l'acteur dans la table `acteurs` par nom et prénom
+            $queryActeur = $this->BDD->prepare("SELECT idActeur FROM acteurs WHERE nom = :nom AND prenom = :prenom");
             $queryActeur->bindParam(':nom', $acteurNom);
             $queryActeur->bindParam(':prenom', $acteurPrenom);
             $queryActeur->execute();
-
-            // Récupérer l'identifiant (idActeur) de l'acteur nouvellement ajouté ou déjà existant
-            $acteurId = $this->BDD->lastInsertId();
+    
+            // Vérifier si l'acteur existe déjà dans la base de données
+            if ($queryActeur->rowCount() > 0) {
+                // Récupérer l'identifiant (idActeur) de l'acteur existant
+                $acteurId = $queryActeur->fetchColumn();
+            } else {
+                // L'acteur n'existe pas, l'ajouter à la table `acteurs`
+                $queryNewActeur = $this->BDD->prepare("INSERT INTO `acteurs` (`nom`, `prenom`) VALUES (:nom, :prenom)");
+                $queryNewActeur->bindParam(':nom', $acteurNom);
+                $queryNewActeur->bindParam(':prenom', $acteurPrenom);
+                $queryNewActeur->execute();
+    
+                // Récupérer l'identifiant (idActeur) de l'acteur nouvellement ajouté
+                $acteurId = $this->BDD->lastInsertId();
+            }
 
             // Insérer le rôle dans la table `roles`
             $queryRole = $this->BDD->prepare("INSERT INTO `roles` (`idActeur`, `idFilm`, `personnage`) VALUES (:idActeur, :idFilm, :personnage)");

@@ -4,22 +4,24 @@
         <h2>Créer un compte</h2>
         <form method='POST' action="compte">
           <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username" class="h5">Username</label>
             <input type="text" class="form-control" id="username" name="username" required>
           </div>
-          <div class="form-group">
-            <label for="email">Email</label>
+          <div class="form-group mt-4">
+            <label for="email" class="h5">Email</label>
             <input type="email" class="form-control" id="email" name="email" required>
           </div>
-          <div class="form-group">
-            <label for="password">Password</label>
+          <div class="form-group mt-4">
+            <label for="password" class="h5">Password</label>
             <input type="password" class="form-control" id="password" name="password" required>
           </div>
-          <div class="form-group">
-            <label for="confirm_password">Confirm Password</label>
+          <div class="form-group mt-4">
+            <label for="confirm_password" class="h5">Confirm Password</label>
             <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
           </div>
-          <button type="submit" class="btn btn-primary" name="register">Register</button>
+          <div class="form-group text-center">
+          <button type="submit" class="btn btn-primary mt-4" name="register">Register</button>
+          </div>
         </form>
       </div>
 
@@ -27,14 +29,16 @@
         <h2>Se connecter</h2>
         <form method='POST' action="compte">
           <div class="form-group">
-            <label for="login_email">Email</label>
+            <label for="login_email" class="h5">Email</label>
             <input type="email" class="form-control" id="login_email" name="login_email" required>
           </div>
-          <div class="form-group">
-            <label for="login_password">Password</label>
+          <div class="form-group mt-4">
+            <label for="login_password" class="h5">Password</label>
             <input type="password" class="form-control" id="login_password" name="login_password" required>
           </div>
-          <button type="submit" class="btn btn-primary" name="login">Login</button>
+          <div class="form-group text-center"> 
+          <button type="submit" class="btn btn-primary mt-4" name="login">Login</button>
+          </div>
         </form>
       </div>
     </div>
