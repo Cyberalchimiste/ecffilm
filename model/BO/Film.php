@@ -7,9 +7,9 @@ class Film
     private $realisateur;
     private $affiche;
     private $annee;
-    private $roles;
+    private array $roles;
 
-    public function __construct($id, $titre, $realisateur, $affiche, $annee, $roles)
+    public function __construct($id, $titre, $realisateur, $affiche, $annee, array $roles)
     {
         $this->id = $id;
         $this->titre = $titre;

@@ -24,16 +24,13 @@
 						</a>
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="accueil">Films</a>
+								<a class="nav-link" aria-current="page" href="accueil">Films</a>
 							</li>
-							
-							
-							{% if session.user_id is not defined %}
-								<li class="nav-item">
-									<a class="nav-link" href="compte">Compte</a>
-								</li>
-							{% endif %}
-
+              	{% if session.user_id is not defined %}
+							<li class="nav-item">
+								<a class="nav-link" href="compte">Compte</a>
+							</li>
+              {% endif %}
 							<!-- Affichage du menu une fois connecté -->
 
 							{% if session.user_id is defined %}
@@ -49,12 +46,14 @@
 							<!-- le formulaire de recherche -->
 
 						</ul>
-						<form class="d-flex">
-							<input class="form-control me-2" type="search" placeholder="Rechercher un film" aria-label="Rechercher">
-							<button class="btn btn-outline-light" type="submit">Rechercher</button>
-						</form>
-					</div>
-				</div>
+        <form action="recherchedefilms" method="post" class="p-3">
+          <div class="input-group">
+            <input type="text" name="recherche" id="recherche" class="form-control me-2" placeholder="Rechercher un film" autocomplete="off" required>
+            <div class="input-group-append">
+              <input type="submit" name="submit" value="recherche" class="btn btn-outline-light">
+            </div>
+          </div>
+        </form>
 			</nav>
 
 			<!-- Message en bas de la navbar quand l'utilisateur n'est pas connecté -->
@@ -68,15 +67,16 @@
 			{% endif %}
 
 
-			<!-- Message en bas de la navbar quand l'utilisateur est connecté -->
+			<!-- Message en bas de la navbar quand l'utilisateur est connecté, j'ai ajouté  session.user_name pour récupérer le nom de l'utilisateur, en
+			 profitant de la session déjà ouverte dans compte.php , en effet j'ai ajouté   $_SESSION['user_name'] = $user->getNom(); pour pouvoir récupérer le nom -->
 
-			{% if session.user_id is defined %}
-				<p class="ms-2">
-					<a class="link-offset-2 link-underline link-underline-opacity-0" href="compte">Bienvenue sur notre médiathèque
-						{{userName}}</a>
+{% if session.user_id is defined %}
+    <p class="ms-2">
+        <a class="link-offset-2 link-underline link-underline-opacity-0" href="accueil">Bienvenue sur notre médiathèque {{ session.user_name }}</a>
+    </p>
+{% endif %}
 
-				</p>
-			{% endif %}
+
 
 
 		</header>

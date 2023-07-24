@@ -21,13 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
         // Assurez-vous que les tableaux ont la même taille
         if (count($personnages) > 0 && count($personnages) === count($noms) && count($noms) === count($prenoms)) {
-            // Limiter le nombre de rôles à 3
-            $maxRoles = min(count($personnages), 3);
-            for ($i = 0; $i < $maxRoles; $i++) {
+            
+            
+            for ($i = 0; $i < 3; $i++) {
                 // Vérifier si les champs ne sont pas vides avant d'ajouter le rôle
                 if (!empty($personnages[$i]) && !empty($noms[$i]) && !empty($prenoms[$i])) {
                     $acteur = new Acteur(null, $noms[$i], $prenoms[$i]);
-                    $role = new Role($personnages[$i], $acteur);
+                    $role = new Role(null, $personnages[$i], $acteur);
                     $roles[] = $role;
                 }
                 
@@ -46,10 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $filmDAO = new FilmDAO();
 
     // Ajouter le film à la base de données en utilisant la méthode add($film)
-    $nouvelIdFilm = $filmDAO->add($film);
+    $newFilm = $filmDAO->add($film);
 
     // Vérifier si l'ajout a réussi
-    if ($nouvelIdFilm !== null) {
+    if ($newFilm !== null) {
         // Rediriger l'utilisateur vers une page de confirmation ou une autre page appropriée
         header("Location: accueil");
         exit;

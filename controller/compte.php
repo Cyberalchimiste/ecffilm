@@ -14,19 +14,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
 
     // Récupérer l'utilisateur correspondant à l'email fourni depuis la base de données
     $user = $usersDao->getOneByEmail($login_email);
-    // Récupérer ensuite son mdp
-    $bddPass = $user->getPassword();
-
 
     if ($user == null) {
         // Si aucun utilisateur correspondant, affiche erreur.
         $message = "Utilisateur incorrect, Veuillez réessayer.";
     } else {
+        // Récupérer ensuite son mdp
+        $bddPass = $user->getPassword();
         // Vérifier si le mot de passe entré correspond au mot de passe haché stocké dans la base de données
         if (password_verify($login_password, $bddPass)) {
             // Le mot de passe est correct
             // On peut connecter l'utilisateur ici en créant une session
             $_SESSION['user_id'] = $user->getId();
+            $_SESSION['user_name'] = $user->getNom();
+
             header('Location: accueil');
             exit();
         } else {
