@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Vérifier si l'ajout a réussi
     if ($newFilm !== null) {
         // Rediriger l'utilisateur vers une page de confirmation ou une autre page appropriée
-        header("Location: accueil");
+        header("Location: creationsucces");
         exit;
     } else {
         // Gérer l'erreur si l'ajout n'a pas réussi
