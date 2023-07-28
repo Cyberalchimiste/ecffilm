@@ -1,4 +1,10 @@
 <?php
+
+if (!isset($_SESSION['user_id'])) {
+    // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+    header('Location: compte');
+    exit;
+}
 // Instanciation de la classe FilmDAO
 $filmDAO = new FilmDAO();
 

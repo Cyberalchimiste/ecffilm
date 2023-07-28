@@ -1,23 +1,35 @@
 <?php
 class FilmDAO extends Dao {
-    public function getAll()
+    public function getAll($search='')
     {
-        $query = $this->BDD->prepare("SELECT f.idFilm, f.titre, f.realisateur, f.affiche, f.annee, a.nom 
-        AS acteur_nom, a.prenom AS acteur_prenom, r.personnage AS role
-        FROM films f
-        JOIN roles ro ON f.idFilm = ro.idFilm
-        JOIN acteurs a ON ro.idActeur = a.idActeur
-        JOIN roles r ON ro.idRole = r.idRole");
-        $query->execute();
+        $query = $this->BDD->prepare("
+            SELECT 
+                f.idFilm, 
+                f.titre, 
+                f.realisateur, 
+                f.affiche, 
+                f.annee, 
+                GROUP_CONCAT('Avec ', a.prenom, ' ', a.nom, ' dans le rôle de ', r.personnage) AS roles
+            FROM films f
+            JOIN roles ro ON f.idFilm = ro.idFilm
+            JOIN acteurs a ON ro.idActeur = a.idActeur
+            JOIN roles r ON ro.idRole = r.idRole
+            WHERE f.titre LIKE :search
+            GROUP BY f.idFilm
+        ");
+        $query->execute(['search' => "%$search%"]);
         $films = array();
-
+    
         while ($data = $query->fetch()) {
-            $film = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], array($data['role']));
+            $roles = explode(',', $data['roles']);
+            $film = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], $roles);
             $films[] = $film;
         }
-
+    
         return $films;
     }
+    
+
 
     public function getOne($id)
     {
@@ -93,43 +105,11 @@ class FilmDAO extends Dao {
     {
     }
 
-    public function join()
-    {
-        $query = $this->BDD->prepare("SELECT f.titre, f.realisateur, f.affiche, f.annee, a.nom 
-        AS acteur_nom, a.prenom AS acteur_prenom, r.personnage AS role
-        FROM films f
-        JOIN roles ro ON f.idFilm = ro.idFilm
-        JOIN acteurs a ON ro.idActeur = a.idActeur
-        JOIN roles r ON ro.idRole = r.idRole");
-        
-    $query->execute();
-    $resultat = $query->fetchAll(PDO::FETCH_ASSOC);
-        
-    return $resultat;
-    }
+   
 
     public function getOneByEmail($email)
     {
     }
 
-    public function searchByTitle($titre)
-{
-    $query = $this->BDD->prepare("SELECT f.idFilm, f.titre, f.realisateur, f.affiche, f.annee, a.nom 
-    AS acteur_nom, a.prenom AS acteur_prenom, r.personnage AS role
-    FROM films f
-    JOIN roles ro ON f.idFilm = ro.idFilm
-    JOIN acteurs a ON ro.idActeur = a.idActeur
-    JOIN roles r ON ro.idRole = r.idRole
-    WHERE LOWER(f.titre) LIKE :titre"); // Ajouter une clause WHERE pour filtrer par titre
-    $query->execute([':titre' => '%' . strtolower($titre) . '%']); // Utiliser directement strtolower() ici
 
-    $films = array();
-
-    while ($data = $query->fetch()) {
-        $film = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], array($data['role']));
-        $films[] = $film;
-    }
-
-    return $films;
-}
 }

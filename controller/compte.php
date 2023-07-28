@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
             }
                 
             
-        } catch (Exeption $e) {
+        } catch (Exception $e) {
             echo 'Erreur lors de la création du compte : ',  $e->getMessage();
             
         }
