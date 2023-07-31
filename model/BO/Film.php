@@ -19,6 +19,14 @@ class Film
         $this->roles = $roles;
     }
 
+
+    public function addRole(Role $role)
+    {
+        $this->roles[] = $role;
+    }
+    
+
+
     public function getId()
     {
         return $this->id;

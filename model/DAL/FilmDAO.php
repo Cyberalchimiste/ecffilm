@@ -8,24 +8,42 @@ class FilmDAO extends Dao {
                 f.titre, 
                 f.realisateur, 
                 f.affiche, 
-                f.annee, 
-                GROUP_CONCAT('Avec ', a.prenom, ' ', a.nom, ' dans le rôle de ', r.personnage) AS roles
+                f.annee,
+                r.idRole,
+                r.personnage,
+                a.idActeur,
+                a.nom,
+                a.prenom
             FROM films f
             JOIN roles ro ON f.idFilm = ro.idFilm
             JOIN acteurs a ON ro.idActeur = a.idActeur
             JOIN roles r ON ro.idRole = r.idRole
             WHERE f.titre LIKE :search
-            GROUP BY f.idFilm
         ");
+
         $query->execute(['search' => "%$search%"]);
-        
-        $films = array_map(function($data) {
-            $roles = explode(',', $data['roles']);
-            return new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], $roles);
-        }, $query->fetchAll());
+    // en dessous je recupere les resultats de la requette et la stock dans filmdata
+        $filmsData = $query->fetchAll();
+    // je initialise un tableau vide qui va contenir les instances de la classe film 
+        $films = [];
+
+        // boucle qui va parcourir le tableau 
+        foreach ($filmsData as $data) {
+            $acteur = new Acteur($data['idActeur'], $data['nom'], $data['prenom']);
+            $role = new Role($data['idRole'], $data['personnage'], $acteur);
+            //  je vérifie si une instance de Film avec le même identifiant existe déjà sinon,j'en créer une nouvelle instance 
+            if (!isset($films[$data['idFilm']])) {
+                $films[$data['idFilm']] = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], [$role]);
+            } else {
+                //si le film existe deja, ça ajoute simplement le nouveau role à ce film
+                $films[$data['idFilm']]->addRole($role);
+            }
+        }
     
-        return $films;
+        return array_values($films);  // ici je retourne les instances de film qu'il ya dans le tableau $films, array_values 
+        //c'est pour re-indexer le tableau en commencant à 0
     }
+    
     
 
 
@@ -111,3 +129,4 @@ class FilmDAO extends Dao {
 
 
 }
+

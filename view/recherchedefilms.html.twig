@@ -29,7 +29,7 @@
 										</p>
 										{% for role in film.roles %}
 											<p class="text">
-												<em>{{ role }}</em>
+												<em>Avec {{ role.getActeur().getPrenom() }} {{ role.getActeur().getNom() }} dans le rôle de {{ role.getPersonnage() }}</em>
 											</p>
 										{% endfor %}
 									</div>
