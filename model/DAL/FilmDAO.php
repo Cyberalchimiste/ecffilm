@@ -18,13 +18,11 @@ class FilmDAO extends Dao {
             GROUP BY f.idFilm
         ");
         $query->execute(['search' => "%$search%"]);
-        $films = array();
-    
-        while ($data = $query->fetch()) {
+        
+        $films = array_map(function($data) {
             $roles = explode(',', $data['roles']);
-            $film = new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], $roles);
-            $films[] = $film;
-        }
+            return new Film($data['idFilm'], $data['titre'], $data['realisateur'], $data['affiche'], $data['annee'], $roles);
+        }, $query->fetchAll());
     
         return $films;
     }
